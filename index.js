@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const userRouter = require("./Routes/User.routes");
 const postRouter = require("./Routes/Post.routes");
 const commentsRouter = require("./Routes/Comment.routes");
@@ -11,6 +12,7 @@ const app = express();
 const port = process.env["port"];
 
 app.use(express.json());
+app.use(cors());
 
 app.use(AuthRouter);
 app.use(userRouter);
