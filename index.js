@@ -6,15 +6,18 @@ const commentsRouter = require("./Routes/Comment.routes");
 const likeRouter = require("./Routes/Like.routes");
 const AuthRouter = require("./Routes/Auth.routes");
 const connectDB = require("./Connection/connectDB");
+const { verifyToken } = require("./Middlewares/Authorisation.middleware");
 
 const app = express();
 
 const port = process.env["port"];
 
 app.use(express.json());
+app.use(express.static("public"));
 app.use(cors());
 
 app.use(AuthRouter);
+app.use(verifyToken);
 app.use(userRouter);
 app.use(postRouter);
 app.use(commentsRouter);

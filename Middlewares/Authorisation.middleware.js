@@ -1,7 +1,5 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const bcrypt = require("bcrypt");
-const User = require("../Models/User.model");
 
 const JWT_SECRET = process.env["JWT_SECRET"];
 
@@ -20,9 +18,8 @@ function generateToken(user) {
 }
 
 function verifyToken(req, res, next) {
-  const authHeader = req.headers.authorization;
-  console.log("authHeader: ", authHeader);
-  const token = authHeader && authHeader.split(" ")[1];
+  const token = req.headers.authorization;
+  console.log('token: ', token);
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });

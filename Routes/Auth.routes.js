@@ -1,6 +1,7 @@
 const express = require("express");
 const User = require("../Models/User.model");
 const bcrypt = require("bcrypt");
+const { generateToken } = require("../Middlewares/Authorisation.middleware");
 
 const AuthRouter = express.Router();
 
@@ -18,6 +19,7 @@ AuthRouter.post("/signup", async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      createdAt: new Date(),
       ...rest,
     });
     await user.save();

@@ -33,32 +33,10 @@ userRouter.get("/users/:userId", async (req, res) => {
   }
 });
 
-// Create a new user
-userRouter.post("/users", async (req, res) => {
-  const { name, email } = req.body;
-
-  try {
-    const user = new User({
-      name,
-      email,
-      createdAt: new Date(),
-      posts: [],
-      comments: [],
-      likes: [],
-    });
-
-    await user.save();
-
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
 // Update a user by ID
-userRouter.put("/users/:userId", async (req, res) => {
+userRouter.patch("/users/:userId", async (req, res) => {
   const userId = req.params.userId;
-  const { name, email } = req.body;
+  const { name, username, bio, profilePicture, ...rest } = req.body;
 
   try {
     const user = await User.findById(userId);
@@ -66,9 +44,10 @@ userRouter.put("/users/:userId", async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
-    user.name = name;
-    user.email = email;
+    user.username = username ? username : user.username;
+    user.name = name ? name : user.name;
+    user.bio = bio ? bio : user.bio;
+    user.profilePicture = profilePicture ? profilePicture : user.profilePicture;
 
     await user.save();
 
@@ -81,10 +60,10 @@ userRouter.put("/users/:userId", async (req, res) => {
 // Delete a user by ID
 userRouter.delete("/users/:userId", async (req, res) => {
   const userId = req.params.userId;
+  console.log("userId: ", userId);
 
   try {
-    const user = await User.findById(userId);
-
+    const user = await User.findOneAndDelete({ _id: userId });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -94,10 +73,9 @@ userRouter.delete("/users/:userId", async (req, res) => {
     await Comment.deleteMany({ user: userId });
     await Like.deleteMany({ user: userId });
 
-    await user.remove();
-
-    res.json({ message: "User deleted" });
+    res.json({ message: "User and All its Data deleted" });
   } catch (err) {
+    console.log("err: ", err);
     res.status(500).json({ message: "Server error" });
   }
 });
