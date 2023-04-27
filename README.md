@@ -60,7 +60,7 @@ This is a backend system for a social media app built with Node.js, Express.js, 
 
 ## 🛠️ Installation
 
-1. Clone the repository: `git clone https://github.com/your-username/social-media-app-backend.git`
+1. Clone the repository: `git clone https://github.com/sayshark75/Chrip_Backend.git`
 2. Install dependencies: `npm install`
 3. Configure the environment variables by creating a `.env` file and updating the values as needed:
   ```js
