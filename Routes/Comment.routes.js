@@ -4,6 +4,7 @@ const commentsRouter = express.Router();
 const User = require("../Models/User.model");
 const Post = require("../Models/Post.model");
 const Comment = require("../Models/Comment.model");
+const Likes = require("../Models/Likes.model");
 
 // Get all comments
 commentsRouter.get("/comments", async (req, res) => {
@@ -59,24 +60,26 @@ commentsRouter.post("/comments", async (req, res) => {
 
     await comment.save();
 
-    targetPost.comments.push(comment);
-    await targetPost.save();
-
     res.json(comment);
   } catch (err) {
+    console.log("err: ", err);
     res.status(500).json({ message: "Server error" });
   }
 });
 
 // Update a comment by ID
-commentsRouter.put("/comments/:commentId", async (req, res) => {
+commentsRouter.patch("/comments/:commentId", async (req, res) => {
   const commentId = req.params.commentId;
   const { content } = req.body;
 
   try {
-    const comment = await Comment.findByIdAndUpdate(commentId, {
-      content,
-    });
+    const comment = await Comment.findByIdAndUpdate(
+      commentId,
+      {
+        content,
+      },
+      { new: true }
+    );
 
     if (!comment) {
       return res.status(404).json({ message: "Comment not found" });
@@ -99,12 +102,21 @@ commentsRouter.delete("/comments/:commentId", async (req, res) => {
       return res.status(404).json({ message: "Comment not found" });
     }
 
-    const post = await Post.findById(comment.post);
-
-    post.comments.pull(comment);
-    await post.save();
-
     res.json(comment);
+  } catch (err) {
+    console.log('err: ', err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Get all likes by a comment
+commentsRouter.get("/comment/:commentId/likes", async (req, res) => {
+  const commentId = req.params.commentId;
+
+  try {
+    const likes = await Likes.find({ comment: commentId });
+
+    res.json(likes);
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }

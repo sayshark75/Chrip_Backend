@@ -46,16 +46,16 @@ likeRouter.post("/likes", async (req, res) => {
     }
 
     let target;
-
+    
     if (post) {
       target = await Post.findById(post);
-
+      
       if (!target) {
         return res.status(404).json({ message: "Post not found" });
       }
     } else if (comment) {
       target = await Comment.findById(comment);
-
+      
       if (!target) {
         return res.status(404).json({ message: "Comment not found" });
       }
@@ -66,15 +66,14 @@ likeRouter.post("/likes", async (req, res) => {
     const like = new Like({
       user: author,
       target,
+      createdAt: new Date(),
     });
 
     await like.save();
 
-    target.likes.push(like);
-    await target.save();
-
     res.json(like);
   } catch (err) {
+    console.log('err: ', err);
     res.status(500).json({ message: "Server error" });
   }
 });
@@ -90,13 +89,9 @@ likeRouter.delete("/likes/:likeId", async (req, res) => {
       return res.status(404).json({ message: "Like not found" });
     }
 
-    const target = await like.targetModel.findById(like.target);
-
-    target.likes.pull(like);
-    await target.save();
-
     res.json(like);
   } catch (err) {
+    console.log('err: ', err);
     res.status(500).json({ message: "Server error" });
   }
 });

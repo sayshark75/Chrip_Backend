@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
-const { ObjectId } = mongoose;
+const { ObjectId } = mongoose.Schema.Types;
 
 const likesSchema = mongoose.Schema({
   user: { type: ObjectId, ref: "users" },
-  post: { type: ObjectId, ref: "posts" },
+  target: { type: ObjectId },
   createdAt: Date,
   updatedAt: Date,
 });

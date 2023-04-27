@@ -38,7 +38,6 @@ AuthRouter.post("/login", async (req, res) => {
 
     // Find the user by email
     const user = await User.findOne({ email });
-    console.log("user: ", user);
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
@@ -55,7 +54,6 @@ AuthRouter.post("/login", async (req, res) => {
     // Send the user data and token in the response
     res.json({ user, token });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
 });

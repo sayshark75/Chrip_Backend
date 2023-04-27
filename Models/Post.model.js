@@ -1,13 +1,11 @@
 const mongoose = require("mongoose");
-const { ObjectId } = mongoose;
+const { ObjectId } = mongoose.Schema.Types;
 
 const postSchema = mongoose.Schema({
   user: { type: ObjectId, ref: "User" },
-  text: String,
+  title: String,
   media: Array,
   createdAt: Date,
-  likes: Array,
-  comments: Array,
   updatedAt: Date,
 });
 

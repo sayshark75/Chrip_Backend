@@ -36,20 +36,24 @@ userRouter.get("/users/:userId", async (req, res) => {
 // Update a user by ID
 userRouter.patch("/users/:userId", async (req, res) => {
   const userId = req.params.userId;
-  const { name, username, bio, profilePicture, ...rest } = req.body;
+  const { name, username, bio, profilePicture } = req.body;
 
   try {
-    const user = await User.findById(userId);
+    const user = await User.findByIdAndUpdate(
+      userId,
+      {
+        username,
+        profilePicture,
+        bio,
+        name,
+        updatedAt: new Date(),
+      },
+      { new: true }
+    );
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    user.username = username ? username : user.username;
-    user.name = name ? name : user.name;
-    user.bio = bio ? bio : user.bio;
-    user.profilePicture = profilePicture ? profilePicture : user.profilePicture;
-
-    await user.save();
 
     res.json(user);
   } catch (err) {
