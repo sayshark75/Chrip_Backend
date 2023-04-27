@@ -6,15 +6,15 @@ This is a backend system for a social media app built with Node.js, Express.js, 
 
 ## 🚀 Features
 
-- Secure registration and authentication with JWT and Bcrypt
-- Authorization to ensure only authorized users can perform certain actions
-- User can create posts with images and text
-- User can add comments to posts
-- User can like posts and comments
-- Can add follow other people, and Vice-Versa
-- Chat with other People.
-- Notification system to alert users of new activity
-- Analytics tools to track user engagement
+- Secure registration and authentication with JWT and Bcrypt :white_check_mark:
+- Authorization to ensure only authorized users can perform certain actions :white_check_mark:
+- User can create posts with images and text :white_check_mark:
+- User can add comments to posts :white_check_mark:
+- User can like posts and comments :white_check_mark:
+- Can add follow other people, and Vice-Versa :rescue_worker_helmet:	
+- Chat with other People. :rescue_worker_helmet:	
+- Notification system to alert users of new activity :rescue_worker_helmet:	
+- Analytics tools to track user engagement :rescue_worker_helmet:	
 
 ## API Routes
 
